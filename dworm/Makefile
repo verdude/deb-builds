@@ -1,3 +1,5 @@
+OUTDIR := /tmp/
+
 .PHONY: prep
 prep:
 	cp ../pkgbuild.sh .
@@ -10,7 +12,7 @@ build:
 
 .PHONY: copy-pkg
 copy-pkg:
-	docker run -v $$PWD:/bin -e "LOCAL_USER_ID=$(shell -u $$USER)" --rm verdude/dworm-deb cp /opt/*.deb /bin
+	docker run -v $$PWD:/opt -e "LOCAL_USER_ID=$(shell id -u $$USER)" --rm verdude/dworm-deb bash -c "cp /tmp/*.deb /opt"
 
 .PHONY: clean
 clean:

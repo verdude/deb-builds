@@ -16,4 +16,4 @@ COPY PKGBUILD PKGBUILD
 CMD ["/pkgbuild.sh"]
 
 FROM base as build
-RUN /pkgbuild.sh -o /opt
+RUN /pkgbuild.sh -o /tmp
