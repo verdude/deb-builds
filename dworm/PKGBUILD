@@ -2,7 +2,7 @@
 
 PKG_NAME=dworm
 PKG_VERSION=0.1.0
-PKG_FILES="/etc/dworm.d/.service-env /etc/dworm.d/dworm.service /usr/bin/dworm.run"
+PKG_FILES="/etc/dworm.d/.service-env /usr/bin/dworm.run /lib/systemd/system/dworm.service"
 PKG_DESCRIPTION="i live like a worm"
 PKG_MAINTAINER="dworm@verdude"
 ARCH="amd64"
