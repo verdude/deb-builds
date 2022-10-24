@@ -1,19 +1,32 @@
 #!/usr/bin/env bash
 
-set -xeo pipefail
+set -xueo pipefail
 
-name="dworm"
-semver="0.1.0"
-revision=1
-vcs_url="https://github.com/verdude/dworm"
-description="i live like a worm"
+# required
+name=""
+semver=""
+vcs_url=""
+files=""
+# optional
+makedepends=""
+buildargs=""
+description=""
+revision=""
 
-files=(
-  /etc/dworm.d/env
-  /etc/dworm.d/dworm.service
-  /usr/local/bin/dworm.run
-)
-makedepends=('erlang' 'git' 'make')
+while getopts f:m:n:v:r:v:d:a: flag
+do
+  case ${flag} in
+    n) name="${OPTARG}";;
+    v) semver="${OPTARG}";;
+    r) revision=${OPTARG:-1};;
+    v) vcs_url="${OPTARG}";;
+    d) description="${OPTARG}";;
+    a) buildargs="${OPTARG}";;
+    m) makedepends="${OPTARG}";;
+    f) files="${OPTARG}";;
+    ?) echo "Bad Args."; exit 1;;
+  esac
+done
 
 __scriptpath="$(cd "$(dirname "$0")"; pwd -P)"
 __version="${name}_${semver}-${revision}"
@@ -22,7 +35,7 @@ __builddir=""
 
 function build() {
   cd ${__builddir}
-  make SFX=1
+  make ${BUILD_ARGS}
 }
 
 function install() {
@@ -30,10 +43,11 @@ function install() {
   make DESTDIR=${__pkgbuilddir} install
 }
 
+# re-usable functions
 function _prepare_env() {
   mkdir -p ${__pkgbuilddir}
   cd ${__pkgbuilddir}
-  for file in ${files[@]}; do
+  for file in ${files}; do
     echo $file
     mkdir -p $(dirname $file)
   done
@@ -48,14 +62,14 @@ function _checkout() {
 
 function _prepdeps() {
   apt update
-  apt install -y ${makedepends[@]}
+  apt install -y ${makedepends}
 }
 
 function _control() {
   cd ${__scriptpath}/${__pkgbuilddir}
   mkdir -p DEBIAN
   cd DEBIAN
-  cp ${__scriptpath}/../control .
+  cp ${__scriptpath}/../control.template control
   sed -i "s/\${NAME}/${name}/" control
   sed -i "s/\${VERSION}/${__version}/" control
   sed -i "s/\${DEPENDS}/${depends[@]}/" control
@@ -63,6 +77,16 @@ function _control() {
   sed -i "s/\${DESCRIPTION}/${description}/" control
 }
 
+function _verify() {
+  for arg in $@; do
+    if [[ -z "${!arg}" ]]; then
+      echo "missing required args"
+      exit 1
+    fi
+  done
+}
+
+_verify name semver vcs_url files
 _prepdeps
 _prepare_env
 _control
