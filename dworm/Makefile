@@ -1,6 +1,6 @@
 img:
 	cp ../pkgbuild.sh .
-	cp ../control.template control
+	cp ../control .
 	docker build -t verdude/dworm-deb .
 
 build:
