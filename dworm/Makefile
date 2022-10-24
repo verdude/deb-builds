@@ -6,7 +6,7 @@ img:
 
 .PHONY: build
 build:
-	docker run verdude/dworm-deb
+	docker run --init verdude/dworm-deb
 
 .PHONY: clean
 clean:

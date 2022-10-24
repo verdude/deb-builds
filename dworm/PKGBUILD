@@ -2,9 +2,10 @@
 
 PKG_NAME=dworm
 PKG_VERSION=0.1.0
-PKG_FILES="/etc/dworm.d/env /etc/dworm.d/dworm.service /usr/bin/dworm.run /lib/systemd/system/"
+PKG_FILES="/etc/dworm.d/env /etc/dworm.d/dworm.service /usr/bin/dworm.run /lib/systemd/system/dworm.service"
 PKG_DESCRIPTION="i live like a worm"
+PKG_MAINTAINER="dworm@verdude"
 
 PKG_VCS_URL=https://github.com/verdude/dworm
-MAKE_DEPENDS="git erlang make"
+MAKE_DEPENDS="git erlang make curl"
 BUILD_ARGS="SFX=1"

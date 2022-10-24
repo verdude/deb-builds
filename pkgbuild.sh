@@ -3,12 +3,12 @@
 set -xeo pipefail
 
 function build() {
-  cd ${__builddir}
+  cd ${__builddir}/${name}
   make ${BUILD_ARGS}
 }
 
 function install() {
-  cd ${__builddir}
+  cd ${__builddir}/${name}
   make DESTDIR=${__pkgbuilddir} install
 }
 
@@ -18,38 +18,38 @@ function _prepare_env() {
   cd ${__pkgbuilddir}
   for file in ${files}; do
     echo $file
-    mkdir -p $(dirname $file)
+    mkdir -p ${__pkgbuilddir}/$(dirname $file)
   done
 }
 
 function _checkout() {
   __builddir=$(mktemp -d)
   cd ${__builddir}
-  git clone --depth 1 ${vcs} ${name}
+  git clone --depth 1 ${vcs_url} ${name}
   cd ${name}
 }
 
 function _prepdeps() {
-  apt update
-  apt install -y ${makedepends}
+  apt-get update
+  apt-get install -y ${makedepends}
 }
 
 function _control() {
-  cd ${__scriptpath}/${__pkgbuilddir}
+  cd ${__pkgbuilddir}
   mkdir -p DEBIAN
   cd DEBIAN
-  cp ${__scriptpath}/../control.template control
+  cp ${__scriptpath}/control .
   sed -i "s/\${NAME}/${name}/" control
   sed -i "s/\${VERSION}/${__version}/" control
   sed -i "s/\${DEPENDS}/${depends[@]}/" control
-  sed -i "s/\${MAINTAINER}/${maintainer:-${EMAIL}}/" control
+  sed -i "s/\${MAINTAINER}/${maintainer}/" control
   sed -i "s/\${DESCRIPTION}/${description}/" control
 }
 
 function _verify() {
   for arg in $@; do
     if [[ -z "${!arg}" ]]; then
-      echo "missing required args"
+      echo "missing required arg: ${arg}"
       exit 1
     fi
   done
@@ -78,6 +78,7 @@ name="${PKG_NAME}"
 semver="${PKG_VERSION}"
 vcs_url="${PKG_VCS_URL}"
 files="${PKG_FILES}"
+maintainer="${PKG_MAINTAINER}"
 
 # optional
 description="${PKG_DESCRIPTION}"
@@ -88,12 +89,12 @@ revision="${PKG_REVISION:-1}"
 # internal
 __scriptpath="$(cd "$(dirname "$0")"; pwd -P)"
 __version="${name}_${semver}-${revision}"
-__pkgbuilddir="${__version}"
+__pkgbuilddir="$(mktemp -d)/${__version}"
 __builddir=""
 
 set -u
 
-_verify name semver vcs_url files
+_verify name semver vcs_url files maintainer
 _prepdeps
 _prepare_env
 _control
