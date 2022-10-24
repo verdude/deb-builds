@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-systemctl disable dworm &>/dev/null
-systemctl stop dworm &>/dev/null
+set -e
+
+systemctl disable dworm &>>/tmp/dworm-install.log
+systemctl stop dworm &>>/tmp/dworm-install.log

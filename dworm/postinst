@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x
+set -e
 
-systemctl enable dworm &>>/home/erra/OUTPuT
-systemctl start dworm &>>/home/erra/OUTPuT
+systemctl enable dworm &>>/tmp/dworm-install.log
+systemctl start dworm &>>/tmp/dworm-install.log
