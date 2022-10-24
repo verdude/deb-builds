@@ -44,6 +44,7 @@ function _control() {
   sed -i "s/\${DEPENDS}/${depends[@]}/" control
   sed -i "s/\${MAINTAINER}/${maintainer}/" control
   sed -i "s/\${DESCRIPTION}/${description}/" control
+  sed -i "s/\${ARCH}/${arch}/" control
 }
 
 function _verify() {
@@ -86,6 +87,7 @@ semver="${PKG_VERSION}"
 vcs_url="${PKG_VCS_URL}"
 files="${PKG_FILES}"
 maintainer="${PKG_MAINTAINER}"
+arch="${ARCH}"
 
 # optional
 description="${PKG_DESCRIPTION}"
@@ -102,7 +104,7 @@ __outputdir="${__outputdir:-$PWD}"
 
 set -u
 
-_verify name semver vcs_url files maintainer
+_verify name semver vcs_url files maintainer arch
 _prepdeps
 _prepare_env
 _control
