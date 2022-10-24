@@ -9,16 +9,15 @@ function build() {
 
 function install() {
   cd ${__builddir}/${name}
-  make DESTDIR=${__pkgbuilddir} install
+  make DESTDIR=${__pkgroot} install
 }
 
 # re-usable functions
 function _prepare_env() {
-  mkdir -p ${__pkgbuilddir}
-  cd ${__pkgbuilddir}
+  mkdir -p ${__pkgroot}
   for file in ${files}; do
     echo $file
-    mkdir -p ${__pkgbuilddir}/$(dirname $file)
+    mkdir -p ${__pkgroot}/$(dirname $file)
   done
 }
 
@@ -35,7 +34,7 @@ function _prepdeps() {
 }
 
 function _control() {
-  cd ${__pkgbuilddir}
+  cd ${__pkgroot}
   mkdir -p DEBIAN
   cd DEBIAN
   cp ${__scriptpath}/control .
@@ -56,8 +55,16 @@ function _verify() {
   done
 }
 
+function _add_scripts() {
+  for script in $@; do
+    if [[ -f ${script} ]]; then
+      cp ${script} ${__pkgroot}/DEBIAN/
+    fi
+  done
+}
+
 function _package() {
-  cd $__pkgbuilddir/..
+  cd $__pkgroot/..
   dpkg-deb --build $__version
   cp $__version.deb $__outputdir
 }
@@ -98,7 +105,8 @@ revision="${PKG_REVISION:-1}"
 # internal
 __scriptpath="$(cd "$(dirname "$0")"; pwd -P)"
 __version="${name}_${semver}-${revision}"
-__pkgbuilddir="$(mktemp -d)/${__version}"
+__pkgbuilddir="${__scriptpath}"
+__pkgroot="$(mktemp -d)/${__version}"
 __builddir=""
 __outputdir="${__outputdir:-$PWD}"
 
@@ -108,6 +116,7 @@ _verify name semver vcs_url files maintainer arch
 _prepdeps
 _prepare_env
 _control
+_add_scripts postinst prerm
 _checkout
 build
 install

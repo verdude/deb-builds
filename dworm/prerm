@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+systemctl disable dworm &>/dev/null
+systemctl stop dworm &>/dev/null
