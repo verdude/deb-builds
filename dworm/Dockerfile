@@ -1,4 +1,4 @@
-from ubuntu:jammy as prep
+From ubuntu:jammy as prep
 RUN set -eux; \
   apt-get update; \
   apt-get install -y gosu; \
