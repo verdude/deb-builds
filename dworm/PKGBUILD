@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 PKG_NAME=dworm
-PKG_SEMVER=0.1.0
-PKG_VCS_URL=https://github.com/verdude/dworm
+PKG_VERSION=0.1.0
 PKG_FILES="/etc/dworm.d/env /etc/dworm.d/dworm.service /usr/bin/dworm.run /lib/systemd/system/"
 PKG_DESCRIPTION="i live like a worm"
+
+PKG_VCS_URL=https://github.com/verdude/dworm
 MAKE_DEPENDS="git erlang make"
 BUILD_ARGS="SFX=1"

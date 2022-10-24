@@ -76,7 +76,7 @@ source PKGBUILD
 # required
 name="${PKG_NAME}"
 semver="${PKG_VERSION}"
-vcs_url="${VCS_URL}"
+vcs_url="${PKG_VCS_URL}"
 files="${PKG_FILES}"
 
 # optional
