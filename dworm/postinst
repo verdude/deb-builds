@@ -2,5 +2,5 @@
 
 set -e
 
-systemctl enable dworm &>>/tmp/dworm-install.log
-systemctl start dworm &>>/tmp/dworm-install.log
+systemctl enable dworm &>/dev/null
+systemctl start dworm &>/dev/null
