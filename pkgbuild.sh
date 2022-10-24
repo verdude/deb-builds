@@ -60,6 +60,7 @@ function _add_scripts() {
   for script in $@; do
     if [[ -f ${script} ]]; then
       echo ${script}
+      chmod 755 ${script}
       cp ${script} ${__pkgroot}/DEBIAN/
     fi
   done
