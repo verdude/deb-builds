@@ -37,7 +37,7 @@ function _control() {
   cd ${__pkgroot}
   mkdir -p DEBIAN
   cd DEBIAN
-  cp ${__scriptpath}/control .
+  cp ${__pkgbuilddir}/control .
   sed -i "s/\${NAME}/${name}/" control
   sed -i "s/\${VERSION}/${semver}/" control
   sed -i "s/\${DEPENDS}/${depends[@]}/" control
@@ -56,8 +56,10 @@ function _verify() {
 }
 
 function _add_scripts() {
+  cd ${__pkgbuilddir}
   for script in $@; do
     if [[ -f ${script} ]]; then
+      echo ${script}
       cp ${script} ${__pkgroot}/DEBIAN/
     fi
   done
@@ -105,10 +107,10 @@ revision="${PKG_REVISION:-1}"
 # internal
 __scriptpath="$(cd "$(dirname "$0")"; pwd -P)"
 __version="${name}_${semver}-${revision}"
-__pkgbuilddir="${__scriptpath}"
 __pkgroot="$(mktemp -d)/${__version}"
-__builddir=""
 __outputdir="${__outputdir:-$PWD}"
+__pkgbuilddir="${__scriptpath}"
+__builddir=""
 
 set -u
 

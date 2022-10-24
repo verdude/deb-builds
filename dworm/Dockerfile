@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y erlang make git
 COPY pkgbuild.sh pkgbuild.sh
 COPY control control
 COPY PKGBUILD PKGBUILD
+COPY postinst postinst
+COPY prerm prerm
 CMD ["/pkgbuild.sh"]
 
 FROM base as build
