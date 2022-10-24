@@ -2,7 +2,7 @@
 prep:
 	cp ../pkgbuild.sh .
 	cp ../control .
-	docker build --target=prep -t verdude/dworm-deb-prep .
+	docker build --target=base -t verdude/dworm-deb-prep .
 
 .PHONY: build
 build:
@@ -10,7 +10,7 @@ build:
 
 .PHONY: copy-pkg
 copy-pkg:
-	docker run -v $$PWD:/opt -e LOCAL_USER_ID=$(shell id -u $$USER) --rm verdude/dworm-deb echo ok
+	docker run -v $$PWD:/bin -e "LOCAL_USER_ID=$(shell -u $$USER)" --rm verdude/dworm-deb cp /opt/*.deb /bin
 
 .PHONY: clean
 clean:
