@@ -1,37 +1,6 @@
 #!/usr/bin/env bash
 
-set -xueo pipefail
-
-# required
-name=""
-semver=""
-vcs_url=""
-files=""
-# optional
-makedepends=""
-buildargs=""
-description=""
-revision=""
-
-while getopts f:m:n:v:r:v:d:a: flag
-do
-  case ${flag} in
-    n) name="${OPTARG}";;
-    v) semver="${OPTARG}";;
-    r) revision=${OPTARG:-1};;
-    v) vcs_url="${OPTARG}";;
-    d) description="${OPTARG}";;
-    a) buildargs="${OPTARG}";;
-    m) makedepends="${OPTARG}";;
-    f) files="${OPTARG}";;
-    ?) echo "Bad Args."; exit 1;;
-  esac
-done
-
-__scriptpath="$(cd "$(dirname "$0")"; pwd -P)"
-__version="${name}_${semver}-${revision}"
-__pkgbuilddir="${__version}"
-__builddir=""
+set -xeo pipefail
 
 function build() {
   cd ${__builddir}
@@ -85,6 +54,44 @@ function _verify() {
     fi
   done
 }
+
+function _help() {
+  echo "You must provide a PKGBUILD file in the current working directory."
+  exit 1
+}
+
+while getopts h flag
+do
+  case ${flag} in
+    h) _help;;
+  esac
+done
+
+if [[ ! -f PKGBUILD ]]; then
+  _help
+fi
+
+source PKGBUILD
+
+# required
+name="${PKG_NAME}"
+semver="${PKG_VERSION}"
+vcs_url="${VCS_URL}"
+files="${PKG_FILES}"
+
+# optional
+description="${PKG_DESCRIPTION}"
+makedepends="${MAKE_DEPENDS}"
+buildargs="${BUILD_ARGS}"
+revision="${PKG_REVISION:-1}"
+
+# internal
+__scriptpath="$(cd "$(dirname "$0")"; pwd -P)"
+__version="${name}_${semver}-${revision}"
+__pkgbuilddir="${__version}"
+__builddir=""
+
+set -u
 
 _verify name semver vcs_url files
 _prepdeps
