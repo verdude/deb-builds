@@ -40,7 +40,7 @@ function _control() {
   cd DEBIAN
   cp ${__scriptpath}/control .
   sed -i "s/\${NAME}/${name}/" control
-  sed -i "s/\${VERSION}/${__version}/" control
+  sed -i "s/\${VERSION}/${semver}/" control
   sed -i "s/\${DEPENDS}/${depends[@]}/" control
   sed -i "s/\${MAINTAINER}/${maintainer}/" control
   sed -i "s/\${DESCRIPTION}/${description}/" control
@@ -55,15 +55,22 @@ function _verify() {
   done
 }
 
+function _package() {
+  cd $__pkgbuilddir/..
+  dpkg-deb --build $__version
+  cp $__version.deb $__outputdir
+}
+
 function _help() {
   echo "You must provide a PKGBUILD file in the current working directory."
   exit 1
 }
 
-while getopts h flag
+while getopts o:h flag
 do
   case ${flag} in
     h) _help;;
+    o) __outputdir=${OPTARG};;
   esac
 done
 
@@ -91,6 +98,7 @@ __scriptpath="$(cd "$(dirname "$0")"; pwd -P)"
 __version="${name}_${semver}-${revision}"
 __pkgbuilddir="$(mktemp -d)/${__version}"
 __builddir=""
+__outputdir="${__outputdir:-$PWD}"
 
 set -u
 
@@ -101,3 +109,4 @@ _control
 _checkout
 build
 install
+_package
