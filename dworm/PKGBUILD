@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PKG_NAME=dworm
-PKG_VERSION=0.1.2
+PKG_VERSION=0.2.0
 PKG_FILES="/etc/dworm.d/.service-env /usr/bin/dworm_release.run /lib/systemd/system/dworm.service"
 PKG_DESCRIPTION="i live like a worm"
 PKG_MAINTAINER="dworm@verdude"

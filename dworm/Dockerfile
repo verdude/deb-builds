@@ -18,4 +18,4 @@ COPY prerm prerm
 CMD ["/pkgbuild.sh"]
 
 FROM base as build
-RUN /pkgbuild.sh -o /tmp
+RUN ["/pkgbuild.sh", "-o", "/tmp"]
