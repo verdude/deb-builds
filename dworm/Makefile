@@ -12,7 +12,7 @@ build:
 
 .PHONY: copy-pkg
 copy-pkg:
-	docker run -v $$PWD:/opt -e "LOCAL_USER_ID=$(shell id -u $$USER)" --rm verdude/dworm-deb bash -c "cp /tmp/*.deb /opt"
+	docker run -ti -v $$PWD:/opt -e "LOCAL_USER_ID=$(shell id -u $$USER)" --rm verdude/dworm-deb bash -c "cp /tmp/*.deb /opt"
 
 .PHONY: clean
 clean:
