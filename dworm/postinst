@@ -2,5 +2,12 @@
 
 set -e
 
+envfile="/etc/dworm.d/.service.env"
+exampleenvfile="/etc/dworm.d/.env.example"
+
 systemctl enable dworm &>/dev/null
 systemctl start dworm &>/dev/null
+
+if [[ ! -f $envfile ]]; then
+  cp $exampleenvfile $envfile
+fi
