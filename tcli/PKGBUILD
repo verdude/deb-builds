@@ -10,4 +10,4 @@ ARCH="amd64"
 
 PKG_VCS_URL=https://github.com/verdude/tcli
 MAKE_DEPENDS="git"
-BUILD_ARGS="CONF_PREFIX=/etc/tcli LOG_PREFIX=/tmp"
+BUILD_ARGS="CONF_PREFIX=/etc/tcli LOG_PREFIX=/tmp CONFIGFILE=config.toml"
