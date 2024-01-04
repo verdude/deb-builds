@@ -7,3 +7,7 @@ control:
 
 pkgbuild.sh:
 	cp ../pkgbuild.sh .
+
+.PHONY: clean
+clean:
+	git clean -xdff

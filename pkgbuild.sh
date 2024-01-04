@@ -4,7 +4,7 @@ set -xeo pipefail
 
 function build() {
   cd ${__builddir}/${name}
-  make ${BUILD_ARGS}
+  make ${buildargs}
 }
 
 function install() {
@@ -102,7 +102,7 @@ arch="${ARCH}"
 # optional
 description="${PKG_DESCRIPTION}"
 makedepends="${MAKE_DEPENDS}"
-buildargs="${BUILD_ARGS}"
+buildargs="${BUILD_ARGS:-}"
 revision="${PKG_REVISION:-1}"
 
 # internal

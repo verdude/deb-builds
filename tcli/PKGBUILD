@@ -10,4 +10,3 @@ ARCH="amd64"
 
 PKG_VCS_URL=https://github.com/verdude/tcli
 MAKE_DEPENDS="git"
-BUILD_ARGS="SFX=1"
