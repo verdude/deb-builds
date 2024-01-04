@@ -29,8 +29,8 @@ function _checkout() {
 }
 
 function _prepdeps() {
-  apt-get update
-  apt-get install -y ${makedepends}
+  sudo apt-get update
+  sudo apt-get install -y ${makedepends}
 }
 
 function _control() {
