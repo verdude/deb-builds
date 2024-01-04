@@ -3,7 +3,7 @@
 set -e
 
 envfile="/etc/tcli/config.toml"
-exampleenvfile="/etc/dworm.d/config.toml.example"
+exampleenvfile="/etc/tcli/config.toml.example"
 
 if [[ ! -f $envfile ]]; then
   cp $exampleenvfile $envfile
