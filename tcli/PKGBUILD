@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+PKG_NAME=tcli
+PKG_VERSION=0.0.1
+PKG_FILES="/etc/tcli/config.toml.example /usr/bin/tcli"
+PKG_DESCRIPTION=""
+PKG_MAINTAINER="tcli@verdude"
+PKG_REVISION=1
+ARCH="amd64"
+
+PKG_VCS_URL=https://github.com/verdude/tcli
+MAKE_DEPENDS="git go"
+BUILD_ARGS="SFX=1"

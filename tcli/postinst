@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+
+envfile="/etc/tcli/config.toml"
+exampleenvfile="/etc/dworm.d/config.toml.example"
+
+if [[ ! -f $envfile ]]; then
+  cp $exampleenvfile $envfile
+fi
