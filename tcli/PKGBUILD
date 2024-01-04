@@ -3,11 +3,11 @@
 PKG_NAME=tcli
 PKG_VERSION=0.0.1
 PKG_FILES="/etc/tcli/config.toml.example /usr/bin/tcli"
-PKG_DESCRIPTION=""
+PKG_DESCRIPTION="I'm not a real doctor."
 PKG_MAINTAINER="tcli@verdude"
 PKG_REVISION=1
 ARCH="amd64"
 
 PKG_VCS_URL=https://github.com/verdude/tcli
-MAKE_DEPENDS="git go"
+MAKE_DEPENDS="git"
 BUILD_ARGS="SFX=1"
