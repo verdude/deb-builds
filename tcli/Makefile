@@ -1,5 +1,9 @@
 .PHONY: build
-build: control
-	cp ../pkgbuild.sh .
-	cp ../control .
+build: control pkgbuild.sh
 	./pkgbuild.sh
+
+control:
+	cp ../control .
+
+pkgbuild.sh:
+	cp ../pkgbuild.sh .
